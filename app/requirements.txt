@@ -1,0 +1,3 @@
+PyJWT
+passlib[bcrypt]
+pydantic[email]

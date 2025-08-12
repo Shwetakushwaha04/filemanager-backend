@@ -3,10 +3,10 @@ from tortoise.models import Model
 
 class User(Model):
     id = fields.IntField(pk=True)
-    username = fields.CharField(50, unique=True)
-    email = fields.CharField(100, unique=True)
-    password = fields.CharField(128)
+    email = fields.CharField(max_length=255, unique=True)
+    name = fields.CharField(max_length=255)
+    passwd = fields.CharField(max_length=255)
     created_at = fields.DatetimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.username
+    class Meta:
+        table = "users"
