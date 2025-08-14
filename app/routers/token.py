@@ -22,19 +22,18 @@ router = APIRouter()
 
 ph = PasswordHasher()
 # register route
-@router.post("/register", response_model = UserOut)
+@router.post("/register", response_model=UserOut)
 async def register_user(user: UserCreate):
+    hashed_pw = ph.hash(user.password)
     try:
-        hashed_pw = ph.hash(user.password)
-        new_user= await User.create(
-            email = user.email, 
-            name = user.name, 
-            passwd= hashed_pw
+        new_user = await User.create(
+            email=user.email,
+            name=user.name,
+            passwd=hashed_pw
         )
-        return UserOut(id= new_user.id, email=new_user.email, name=new_user.name)
+        return new_user  # Pydantic will auto-convert to UserOut
     except IntegrityError:
         raise HTTPException(status_code=400, detail="Email already registered")
-
         
 # login route
 @router.post("/token")
